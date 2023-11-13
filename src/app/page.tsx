@@ -1,14 +1,14 @@
 import Image from 'next/image'
-import MapResearch from './compornents/MapResearch'
 import KeywordResearch from './compornents/KeywordResearch'
 import GenreResearch from './compornents/GenreResearch'
-import SlideBar from './compornents/SlideBar'
+import AreaResearch from './compornents/AreaResearch'
+import { supabase } from '@/utils/supabaseClient';
 
 export default function Home() {
+  console.log(supabase);
   return (
     <div>
-      <SlideBar />
-      <MapResearch />
+      <AreaResearch/>
       <KeywordResearch />
       <GenreResearch />
     </div>

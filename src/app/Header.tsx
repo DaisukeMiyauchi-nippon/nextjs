@@ -8,7 +8,7 @@ const Header = () => {
         <div>
             <ul>
                 <li>会員登録</li>
-                <li>ログイン</li>
+                <li><Link href = "/login">ログイン</Link></li>
                 <li>マイページ</li>
             </ul>
         </div>
