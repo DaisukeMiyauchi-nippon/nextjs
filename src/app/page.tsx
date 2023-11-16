@@ -4,12 +4,15 @@ import GenreResearch from './compornents/GenreResearch'
 import AreaResearch from './compornents/AreaResearch'
 import { supabase } from '@/utils/supabaseClient';
 
-export default function Home() {
-  console.log(supabase);
+export default async function Home() {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const res = await fetch(`${API_URL}/api`, {cache: "no-store"});
+  const item = await res.json();
+
   return (
     <div>
-      <AreaResearch/>
-      <KeywordResearch />
+      <AreaResearch />
+      <KeywordResearch items = {item}/>
       <GenreResearch />
     </div>
 
