@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from './Header'
 import Footer from './Footer'
+import LoginControl from './LoginControl'
 
 
 export default function RootLayout({
@@ -14,8 +15,8 @@ export default function RootLayout({
     <html lang="ja">
       <body>
         <Header />
+        <LoginControl />
         {children}
-        
         <Footer />
 
       </body>

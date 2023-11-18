@@ -1,19 +1,14 @@
-import Link from 'next/link'
-import React from 'react'
+import Link from "next/link";
+import React from "react";
 
-const Header = () => {
+const Header = async () => {
   return (
     <header>
-        <h1><Link href="/">ProjectZ Logo</Link></h1>
-        <div>
-            <ul>
-                <li>会員登録</li>
-                <li><Link href = "/login">ログイン</Link></li>
-                <li>マイページ</li>
-            </ul>
-        </div>
+      <h1>
+        <Link href="/">ProjectZ Logo</Link>
+      </h1>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
