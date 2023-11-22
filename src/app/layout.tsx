@@ -5,6 +5,10 @@ import Header from './Header'
 import Footer from './Footer'
 import LoginControl from './LoginControl'
 
+export const metadata: Metadata = {
+  title: 'ProjectZ',
+  description: '新しい仲間、趣味、場所を見つけるサイトです',
+}
 
 export default function RootLayout({
   children,
@@ -15,7 +19,7 @@ export default function RootLayout({
     <html lang="ja">
       <body>
         <Header />
-        <LoginControl />
+       {/* <LoginControl /> */}
         {children}
         <Footer />
 

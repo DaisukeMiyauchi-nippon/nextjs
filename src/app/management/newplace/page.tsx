@@ -49,6 +49,13 @@ const NewPlace = () => {
                 <label>拠点紹介</label>
                 <input type="textarea" className=""></input>
             </div>
+
+            <div className='mb-4'>
+                <label>拠点URL</label>
+                <input type="text" className=""></input>
+            </div>
+
+            <button type="submit">登録</button>
         </form>
         </div>
   )
