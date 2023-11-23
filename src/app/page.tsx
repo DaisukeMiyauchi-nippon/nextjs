@@ -1,36 +1,30 @@
 import { ArrowPathIcon, CloudArrowUpIcon, FingerPrintIcon, LockClosedIcon } from '@heroicons/react/24/outline'
 import KeywordResearch from './compornents/KeywordResearch'
+import GenreResearch from './compornents/GenreResearch'
+import AreaResearch from './compornents/AreaResearch'
+import NewEventInfo from './compornents/NewEventInfo'
 
 const features = [
   {
-    name: 'Push to deploy',
-    description:
-      'Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.',
+    name: 'エリア検索',
+    description:<AreaResearch />,
     icon: CloudArrowUpIcon,
   },
   {
-    name: 'SSL certificates',
-    description:
-      'Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Sem sodales gravida quam turpis enim lacus amet.',
+    name: 'ジャンル検索',
+    description: <GenreResearch />,
     icon: LockClosedIcon,
   },
   {
-    name: 'Simple queues',
-    description:
-      'Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.',
+    name: 'キーワード検索',
+    description:<KeywordResearch />,
     icon: ArrowPathIcon,
   },
   {
-    name: 'Advanced security',
-    description:
-      'Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.',
+    name: '新規登録イベント情報',
+    description: <NewEventInfo />,
     icon: FingerPrintIcon,
-  },  {
-    name: 'Advanced security',
-    description:
-      'Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.',
-    icon: FingerPrintIcon,
-  },
+  },  
 
 ]
 

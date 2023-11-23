@@ -1,35 +1,60 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 
 const GenreResearch = () => {
+  const [showPopover, setShowPopover] = useState(false);
+
   return (
     <div>
-      <form action='#' method='post'>
-      <label htmlFor="jenreBox">ジャンル検索</label>
-      <select name="jenreOutdoor" className="jenreSearch-select">
-        <option hidden>アウトドア</option>
-        <option value="1">登山</option>
-        <option value="2">キャンプ</option>
-        <option value="3">スキー・スノーボード</option>
-        <option value="4">釣り</option>
-      </select>
+      <div className="mt-2 flex items-center gap-x-3">
+        <button
+          onMouseEnter={() => setShowPopover(true)}
+          onMouseLeave={() => setShowPopover(false)}
+          type="button"
+          className="w-32 h-12 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+        >
+          {showPopover && (
+            <div style={{ position: "absolute", top: "100%", left: 0 }}>
+              <p>アウトドア詳細選択画面</p>
+            </div>
+          )}
+          アウトドア
+        </button>
 
-      <select name="jenreSports" className="jenreSearch-select">
-        <option hidden>スポーツ</option>
-        <option value="10">野球</option>
-        <option value="11">サッカー・フットサル</option>
-        <option value="12">テニス</option>
-        <option value="13">バドミントン</option>
-      </select>
+        <button
+          type="button"
+          className="w-32 h-12 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+        >
+          スポーツ
+        </button>
+        <button
+          type="button"
+          className="w-32 h-12 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+        >
+          教養
+        </button>
+      </div>
 
-      <select name="jenrehobby" className="jenreSearch-select">
-        <option hidden>趣味・教養</option>
-        <option value="10">読書会</option>
-        <option value="11">茶道</option>
-        <option value="12">マジック</option>
-        <option value="13">音楽</option>
-      </select>
-
-      </form>
+      <div className="mt-2 flex items-center gap-x-3">
+        <button
+          type="button"
+          className="w-32 h-12 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+        >
+          ボランティア
+        </button>
+        <button
+          type="button"
+          className="w-32 h-12  rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+        >
+          食事・お酒
+        </button>
+        <button
+          type="button"
+          className="w-32 h-12  rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+        >
+          観光施設・名所めぐり
+        </button>
+      </div>
     </div>
   );
 };

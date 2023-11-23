@@ -7,14 +7,17 @@ type ReseachListProps = {
 
 const KeywordResearch = () => {
   return(
-  <div>
-
-      <label htmlFor="searchBox">キーワード検索</label>
-      <form action="/resultkeyword" method="get">
-        <input type="text" id="searchBox" placeholder="例：登山　山梨"  name="word"/>
-        <button type="submit">検索</button>
-      </form>
+    <div>
+    <div className="relative mt-2 rounded-md shadow-sm">
+      <input
+        type="text"
+        name="keyword"
+        id="keyword"
+        className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        placeholder="山梨　登山"
+      />
     </div>
+  </div>
   )
 }
 export default KeywordResearch;
