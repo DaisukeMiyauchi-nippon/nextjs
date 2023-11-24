@@ -5,16 +5,10 @@ import LoginControl from "./LoginControl";
 import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import {
-  ArrowPathIcon,
   Bars3Icon,
-  ChartPieIcon,
-  CursorArrowRaysIcon,
-  FingerPrintIcon,
-  SquaresPlusIcon,
-  XMarkIcon,
 } from "@heroicons/react/24/outline";
-import Image from "next/image";
 import React from "react";
+import NextAuthProvider from "./providers/NextAuth";
 
 
 
@@ -63,7 +57,7 @@ export default function Header() {
               よくある質問
             </a>
             <a
-              href="#"
+              href="/inquiry"
               className="text-sm font-semibold leading-6 text-gray-900"
             >
               お問い合わせ
@@ -71,7 +65,7 @@ export default function Header() {
           </Popover.Group>
 
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <LoginControl />
+          <NextAuthProvider><LoginControl /></NextAuthProvider>
           </div>
         </nav>
       </header>
