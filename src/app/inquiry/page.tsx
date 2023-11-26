@@ -4,7 +4,29 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
 
 export default function Inquiry() {
-  const [agreed, setAgreed] = useState(false)
+  const [formData, setFormData] = useState({
+    // フォームデータ
+    name: '',
+    email: '',
+    company:'',
+    message:'',
+  });
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  
+  const handleChange = (e: { target: { name: any; value: any; }; }) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    // フォーム送信の処理
+    // 確認画面を表示
+    setShowConfirmation(true);
+  };
 
   return (
     <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
@@ -27,7 +49,7 @@ export default function Inquiry() {
         お問い合わせの内容によっては、お時間を頂戴する場合がございます。
         </p>
       </div>
-      <form action="#" method="POST" className="mx-auto mt-16 max-w-xl sm:mt-20">
+      <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20" >
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div>
             <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
@@ -38,6 +60,7 @@ export default function Inquiry() {
                 type="text"
                 name="family-name"
                 id="family-name"
+                value={formData.name}
                 autoComplete="family"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -66,6 +89,7 @@ export default function Inquiry() {
                 type="text"
                 name="company"
                 id="company"
+                value={formData.company}
                 autoComplete="organization"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -98,6 +122,46 @@ export default function Inquiry() {
                 className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
+          </div>
+          <div className="sm:col-span-2">
+            <label htmlFor="message-type" className="block text-sm font-semibold leading-6 text-gray-900">
+              お問い合わせ種類
+            </label>
+            <div className="mt-6 space-y-6">
+                <div className="flex items-center gap-x-3">
+                  <input
+                    id="push-attendance"
+                    name="push-notifications"
+                    type="radio"
+                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  />
+                  <label htmlFor="push-everything" className="block text-sm font-medium leading-6 text-gray-900">
+                    イベントへの参加に関して
+                  </label>
+                </div>
+                <div className="flex items-center gap-x-3">
+                  <input
+                    id="push-resisteration"
+                    name="push-notifications"
+                    type="radio"
+                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  />
+                  <label htmlFor="push-email" className="block text-sm font-medium leading-6 text-gray-900">
+                    イベントの登録に関して
+                  </label>
+                </div>
+                <div className="flex items-center gap-x-3">
+                  <input
+                    id="push-other"
+                    name="push-notifications"
+                    type="radio"
+                    className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  />
+                  <label htmlFor="push-nothing" className="block text-sm font-medium leading-6 text-gray-900">
+                    その他
+                  </label>
+                </div>
+              </div>
           </div>
           <div className="sm:col-span-2">
             <label htmlFor="message" className="block text-sm font-semibold leading-6 text-gray-900">

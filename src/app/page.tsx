@@ -34,7 +34,7 @@ export default function Example() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
           <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            さぁ、新しい自分と仲間を見つけよう
+            さあ、新しい自分と仲間を見つけよう
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-600">
             （仮）あなたがやりたいこと、興味あることに挑戦しましょう。 <br /> 
