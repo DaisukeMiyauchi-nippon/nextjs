@@ -41,7 +41,7 @@ export default function Example() {
             （仮）プロジェクトZは、年齢や職業、地域を超えた仲間づくりを応援します。
           </p>
         </div>
-        <div className="mx-auto mt-4 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+        <div className="mx-auto mt-4 max-w-2xl sm:mt-4 lg:mt-16 lg:max-w-4xl">
           <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
             {features.map((feature) => (
               <div key={feature.name} className="relative pl-16">

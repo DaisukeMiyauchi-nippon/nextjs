@@ -1,73 +1,68 @@
-const people = [
+const newEvent = [
     {
-      name: 'Leslie Alexander',
-      email: 'leslie.alexander@example.com',
-      role: 'Co-Founder / CEO',
-      imageUrl:
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      lastSeen: '3h ago',
-      lastSeenDateTime: '2023-01-23T13:23Z',
+      eventName: '山梨１００名山登山会',
+      eventGenre: '登山',
+      host: 'クロスビー',
+      place: '山梨',
+      RegisteredDate: '11/22'
+    },
+
+    {
+      eventName: '甲府フェニックス',
+      eventGenre: '野球',
+      host: 'クロスビー',
+      place: '山梨',
+      RegisteredDate: '11/22'
     },
     {
-      name: 'Michael Foster',
-      email: 'michael.foster@example.com',
-      role: 'Co-Founder / CTO',
-      imageUrl:
-        'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      lastSeen: '3h ago',
-      lastSeenDateTime: '2023-01-23T13:23Z',
+      eventName: '山梨ワイナリー愛好会',
+      eventGenre: '食事・お酒',
+      host: 'クロスビー',
+      place: '山梨',
+      RegisteredDate: '11/22'
     },
     {
-      name: 'Dries Vincent',
-      email: 'dries.vincent@example.com',
-      role: 'Business Relations',
-      imageUrl:
-        'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      lastSeen: null,
-    },
-    {
-      name: 'Lindsay Walton',
-      email: 'lindsay.walton@example.com',
-      role: 'Front-end Developer',
-      imageUrl:
-        'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      lastSeen: '3h ago',
-      lastSeenDateTime: '2023-01-23T13:23Z',
-    },
-    {
-      name: 'Courtney Henry',
-      email: 'courtney.henry@example.com',
-      role: 'Designer',
-      imageUrl:
-        'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      lastSeen: '3h ago',
-      lastSeenDateTime: '2023-01-23T13:23Z',
-    },
-    {
-      name: 'Tom Cook',
-      email: 'tom.cook@example.com',
-      role: 'Director of Product',
-      imageUrl:
-        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      lastSeen: null,
+      eventName: '甲府茶道会',
+      eventGenre: '茶道',
+      host: 'XXX',
+      place: '山梨',
+      RegisteredDate: '11/22'
     },
   ]
 
-export default function Example() {
+export default function newEventInfo() {
     return (
-      <ul role="list" className="divide-y divide-gray-100">
-        {people.map((person) => (
-          <li key={person.email} className="flex justify-between gap-x-2 py-2">
-            <div className="flex min-w-0 gap-x-2">
-              <div className="min-w-0 flex-auto">
-                <p className="text-sm font-semibold leading-6 text-gray-900">{person.name}</p>
-              </div>
-            </div>
-            <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-              <p className="text-sm leading-6 text-gray-900">{person.role}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <div className="flex flex-col">
+      <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+          <div className="overflow-hidden">
+            <table className="min-w-full text-left text-sm font-light">
+              <thead className="border-b font-medium dark:border-neutral-500">
+                <tr>
+                  <th scope="col" className="px-6 py-4">イベント名</th>
+                  <th scope="col" className="px-6 py-4">種類</th>
+                  <th scope="col" className="px-6 py-4">ホスト</th>
+                  <th scope="col" className="px-6 py-4">地域</th>
+                  <th scope="col" className="px-6 py-4">登録日</th>
+                </tr>
+              </thead>
+              {newEvent .map((event) => (
+              <tbody key={event.eventName} >
+                <tr 
+                  className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
+                  <td className="whitespace-nowrap px-6 py-4">{event.eventName}</td>
+                  <td className="whitespace-nowrap px-6 py-4">{event.eventGenre}</td>
+                  <td className="whitespace-nowrap px-6 py-4">{event.place}</td>
+                  <td className="whitespace-nowrap px-6 py-4">{event.RegisteredDate}</td>
+                </tr>
+              </tbody>
+              ))}
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+      
     )
   }

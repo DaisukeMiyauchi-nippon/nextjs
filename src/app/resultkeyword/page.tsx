@@ -1,9 +1,18 @@
+"use client"
 import React from 'react'
+import { useSearchParams } from 'next/navigation'
 
-const page = () => {
+const ResultKeyword = () => {
+  const searchParams = useSearchParams()
+  const keyword = searchParams.get('keyword')
+
   return (
-    <div>page</div>
-  )
-}
+    <div>
+      Searched keyword: {keyword}
+      {/* 他の検索結果に関するコンポーネントやロジックを追加できます */}
+    </div>
+  );
+};
 
-export default page
+
+export default ResultKeyword
