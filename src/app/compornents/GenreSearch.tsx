@@ -2,7 +2,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 
-const GenreResearch = () => {
+const GenreSearch = () => {
   const [showPopover, setShowPopover] = useState(false);
 
   return (
@@ -85,4 +85,4 @@ const GenreResearch = () => {
   );
 };
 
-export default GenreResearch;
+export default GenreSearch;

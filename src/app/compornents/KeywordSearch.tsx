@@ -6,7 +6,7 @@ type ReseachListProps = {
   items: Item[];
 };
 
-const KeywordResearch = () => {
+const KeywordSearch = () => {
   const [keyword, setKeyword] = useState("");
   const handleSearch = () => {
     window.open(`/resultkeyword?keyword=${keyword}`, "_blank");
@@ -17,7 +17,6 @@ const KeywordResearch = () => {
       <div className="flex relative mt-2 rounded-md shadow-sm">
         <input
           type="text"
-          value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           className="block w-2/3 rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           placeholder="山梨　登山"
@@ -32,4 +31,4 @@ const KeywordResearch = () => {
     </div>
   );
 };
-export default KeywordResearch;
+export default KeywordSearch;
