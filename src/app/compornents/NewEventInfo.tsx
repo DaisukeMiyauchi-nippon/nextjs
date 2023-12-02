@@ -1,3 +1,5 @@
+import { supabase } from "@/utils/supabaseClient";
+
 const newEvent = [
     {
       eventName: '山梨１００名山登山会',
@@ -30,8 +32,13 @@ const newEvent = [
     },
   ]
 
-export default function newEventInfo() {
+export default async function newEventInfo() {
+    const supa = supabase
+    const { data } = await supa.from("GROUP_MAIN").select();
+    console.log(data)
+
     return (
+      
       <div className="flex flex-col">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">

@@ -1,10 +1,5 @@
 "use client"
-import { Item } from "@/types";
 import React, { useState } from "react";
-
-type ReseachListProps = {
-  items: Item[];
-};
 
 const KeywordSearch = () => {
   const [keyword, setKeyword] = useState("");
