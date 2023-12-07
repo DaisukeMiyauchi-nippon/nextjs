@@ -1,6 +1,7 @@
 "use client"
 import {useState, useEffect } from "react";
 import { supabase } from "@/utils/supabaseClient";
+import Link from "next/link";
 
 const newEvent = [
   {
@@ -83,7 +84,7 @@ export default function NewEventInfo() {
                 <tbody key={data.id}>
                   <tr className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
                     <td className="whitespace-nowrap px-6 py-4">
-                      {data.group_name}
+                      <Link href={`/detailgroup/${data.id}`}>{data.group_name}</Link>
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
                       {data.group_genre}

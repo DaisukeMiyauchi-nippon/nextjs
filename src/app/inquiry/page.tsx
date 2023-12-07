@@ -78,7 +78,7 @@ export default function Inquiry() {
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div>
             <label
-              htmlFor="first-name"
+              htmlFor="Last-name"
               className="block text-sm font-semibold leading-6 text-gray-900"
             >
               姓
@@ -275,12 +275,10 @@ export default function Inquiry() {
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
                   <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                    <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                      <div className="sm:flex sm:items-start">
                         <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                           <Dialog.Title
                             as="h3"
-                            className="text-base font-semibold leading-6 text-gray-900"
+                            className="text-base font-semibold leading-6 text-gray-900 mt-4"
                           >
                             入力内容の確認
                           </Dialog.Title>
@@ -292,12 +290,9 @@ export default function Inquiry() {
                           <div className="modal-content mt-12">
                         <p>Email: {email}</p>
                         <p>問い合わせ内容: {inquiry}</p>
-                        <button onClick={closeModal}>確認</button>
                       </div>
                         </div>
-                      </div>
-                    </div>
-                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 mt-2">
                       <button
                         type="button"
                         className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm  sm:ml-3 sm:w-auto"

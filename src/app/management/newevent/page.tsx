@@ -1,5 +1,5 @@
 "use client";
-import { SetStateAction, useState, Fragment, useRef } from "react";
+import { SetStateAction, useState, Fragment, useRef,useEffect } from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
@@ -176,6 +176,7 @@ export default function NewEvent() {
           </button>
         </div>
       </form>
+      
     </div>
   );
 }

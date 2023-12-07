@@ -4,7 +4,7 @@ import React, { useState } from "react";
 const KeywordSearch = () => {
   const [keyword, setKeyword] = useState("");
   const handleSearch = () => {
-    window.open(`/resultkeyword?keyword=${keyword}`, "_blank");
+    window.open(`/searchkeyword?keyword=${keyword}`, "_blank");
   };
 
   return (

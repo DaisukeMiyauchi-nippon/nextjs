@@ -1,10 +1,12 @@
 "use client";
-import { SetStateAction, useState, Fragment, useRef } from "react";
+import { SetStateAction, useState, Fragment, useRef,useEffect } from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
+import { supabase } from "@/utils/supabaseClient";
 
 export default function NewGroup() {
+  
   const [groupName, setGroupName] = useState("");
   const [genre, setGenre] = useState("");
   const [hostId, setHostId] = useState("");
@@ -13,6 +15,9 @@ export default function NewGroup() {
   const [showModal, setShowModal] = useState(false);
   const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
+  const [error, setError] = useState("");
+
+
 
   const handleGroupNameChange = (e: {
     target: { value: SetStateAction<string> };
@@ -44,10 +49,41 @@ export default function NewGroup() {
     setIntroduction(e.target.value);
   };
 
-  const handleConfirmation = () => {
-    setShowModal(true);
+  const validateForm = () => {
+    if (!groupName || !genre || !hostId || !managerId || !introduction) {
+      setError("全ての項目を入力してください。");
+      return false;
+    }
+    setError("");
+    return true;
   };
 
+  const addGroup = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
+    try {
+    const {error } = await supabase
+    .from("GROUP_MAIN")
+    .insert(
+      {group_name:groupName,
+        group_genre:genre,
+        group_host:hostId,
+      });
+      if (error) {
+        throw error;
+      }
+      setShowModal(true);
+    } catch (error) {
+      console.error("Error adding group:", error);
+    }
+  }
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+  
   return (
     <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
       <div
@@ -59,7 +95,10 @@ export default function NewGroup() {
           新規グループ登録
         </h2>
       </div>
-      <form className="mx-auto mt-16 max-w-xl sm:mt-20">
+      <form onSubmit= {addGroup} className="mx-auto mt-16 max-w-xl sm:mt-20">
+      {error && (
+          <p className="mt-2 text-red-600 text-sm">{error}</p>
+        )}
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div>
             <label
@@ -144,19 +183,74 @@ export default function NewGroup() {
               />
             </div>
           </div>
-
         </div>
         <div className="mt-10">
           <button
-            type="button"
-            onClick={handleConfirmation}
+            type="submit"
             className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            入力内容の確認
+            登録
           </button>
         </div>
-
       </form>
-    </div>
+      {showModal && (
+        <Transition.Root show={open} as={Fragment}>
+          <Dialog
+            as="div"
+            className="relative z-10"
+            initialFocus={cancelButtonRef}
+            open={showModal}
+            onClose={closeModal}
+          >
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                  enterTo="opacity-100 translate-y-0 sm:scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                >
+                  <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                        <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                          <Dialog.Title
+                            as="h3"
+                            className="text-base font-semibold leading-6 text-gray-900 mt-4"
+                          >
+                            グループが登録されました。
+                          </Dialog.Title>
+                        </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                      <button
+                        type="button"
+                        className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm  sm:ml-3 sm:w-auto"
+                        onClick={closeModal}
+                        ref={cancelButtonRef}
+                      >
+                        閉じる
+                      </button>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition.Root>
+      )}
+        </div>
   );
 }
