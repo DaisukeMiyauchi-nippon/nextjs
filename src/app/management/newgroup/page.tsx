@@ -11,7 +11,8 @@ export default function NewGroup() {
   const [genre, setGenre] = useState("");
   const [hostId, setHostId] = useState("");
   const [managerId, setManagerId] = useState("");
-  const [introduction, setIntroduction] = useState("");
+  const [simple_introduction, setSimple_Introduction] = useState("");
+  const [detail_introduction, setDetail_Introduction] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
@@ -43,14 +44,20 @@ export default function NewGroup() {
     setManagerId(e.target.value);
   };
 
-  const handleIntroductionChange = (e: {
+  const handleSimple_IntroductionChange = (e: {
     target: { value: SetStateAction<string> };
   }) => {
-    setIntroduction(e.target.value);
+    setSimple_Introduction(e.target.value);
+  };
+
+  const handleDetail_IntroductionChange = (e: {
+    target: { value: SetStateAction<string> };
+  }) => {
+    setDetail_Introduction(e.target.value);
   };
 
   const validateForm = () => {
-    if (!groupName || !genre || !hostId || !managerId || !introduction) {
+    if (!groupName || !genre || !hostId || !managerId || !simple_introduction ||!detail_introduction) {
       setError("全ての項目を入力してください。");
       return false;
     }
@@ -70,6 +77,7 @@ export default function NewGroup() {
       {group_name:groupName,
         group_genre:genre,
         group_host:hostId,
+        simple_intro:simple_introduction,
       });
       if (error) {
         throw error;
@@ -172,17 +180,33 @@ export default function NewGroup() {
               htmlFor="group-introduction"
               className="block text-sm font-semibold leading-6 text-gray-900"
             >
-              グループ紹介
+              グループ紹介（一言）
             </label>
             <div className="relative mt-2.5">
               <input
                 type="textarea"
-                value={introduction}
-                onChange={handleIntroductionChange}
+                value={simple_introduction}
+                onChange={handleSimple_IntroductionChange}
+                className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+            <div className="sm:col-span-2">
+            <label
+              htmlFor="group-introduction"
+              className="block text-sm font-semibold leading-6 text-gray-900"
+            >
+              グループ紹介（詳細）
+            </label>
+            <div className="relative mt-2.5">
+              <input
+                type="textarea"
+                value={detail_introduction}
+                onChange={handleDetail_IntroductionChange}
                 className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
+        </div>
         </div>
         <div className="mt-10">
           <button

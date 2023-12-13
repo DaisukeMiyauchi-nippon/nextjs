@@ -1,9 +1,43 @@
-import React from 'react'
+import React from "react";
 
-const page = () => {
+const Aboutus = () => {
   return (
-    <div>page</div>
-  )
-}
+    <div className="bg-white px-2 py-12 sm:py-12 lg:px-4">
+      <div className="mx-auto max-w-2xl ">
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl text-center">
+          プロジェクトｚについて
+        </h2>
+        <p className="mt-2 text-sm leading-8 text-gray-600 mt-4 text-center">
+          本サービスは、Webサイトを通じてコミュニティの発見、創造、維持を支援するサービスです。<br/>
+          コミュニティの情報を集約し、掲載することで、新しい仲間や活動を見つけることを用意にします。
+        </p>
+        <h3 className="text-medium font-bold tracking-tight text-gray-900 sm:text-xl mt-4">
+          開発ストーリー</h3>
+        <h4>①東京から地方に移住した私</h4>
+        <p className="mt-2 text-sm leading-8 text-gray-600">
+          このサービスの開発は、僕の東京から山梨県甲府市への移住経験から生まれました。移住当時の私は35歳、人生において大切なことは仕事だけではないと気づき始めた年頃でした。メインとなる仕事は甲府市にあったものの、仕事以外のコミュニティや縁を大切にしたいと思い、まずは昔から自分が興味のあった事を軸にしながら仲間作りを開始しました。
+        </p>
+        <h4>②難航するコミュニティ探し </h4>
+        <p className="mt-2 text-sm leading-8 text-gray-600">
+          まずはGoogleの検索エンジンに「柔道　山梨」「狩猟　山梨」などとキーワードを打ち込むことからスタートです。いくつか情報が出てきますが、それほど量はありません。どの程度の活動をしているのか、初心者や部外者を歓迎しているのか、さっぱり分かりません。SNSは更に混沌としています。いくつかの団体にメールを送ってみますが、返信があったりこなかったり。コミュニティ探しは難航します。
+        </p>
+        <h4>③市のスポーツ施設に「団員募集」と書かれた沢山の紙ポスター </h4>
+        <p className="mt-2 text-sm leading-8 text-gray-600">
+          そんな中でふと立ち寄ったスポーツ施設の掲示板を見ると、
+          「弓道やっています、老若男女問わず部員大募集」
+          「ダンスサークル、週一回活動中」
+          などというポスターが多数掲載されていました。いずれもインターネットで出てこなかった団体やイベントばかりです。また、仲良くなりはじめた地元の人に相談すると
+          「〇〇さんがそういった活動をしているよ」
+          などというアドバイスを貰うこともあったりしました。
+          これらの団体はいずれも新規の参画者を強く募集していて、新しい人が来ることを歓迎していました。ただ、情報の開示方法が限定的だっただけです。
+        </p>
+        <h4>目指すは「何か始めたい」と思った人を応援したい </h4>
+        <p className="mt-2 text-sm leading-8 text-gray-600">
+        僕は「何かを始めたい」と思った人が、挑戦する場を簡単に見つけることが出来る社会であってほしいと思います。TomoGramはコミュニティに関する活動情報や募集の情報を的確に提示することで、「何か始めたい」と思った人を応援したいと考えています。 
+        </p>
+      </div>
+    </div>
+  );
+};
 
-export default page
+export default Aboutus;
