@@ -10,16 +10,20 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const onLogin = async () => {
+    try{
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
-    });
+    })
+}catch(error){
+    alert('エラーが発生しました');;
   };
+};
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+    <div className="bg-white px-2 py-12 sm:py-16 lg:px-4">
+      <div className="mx-auto max-w-2xl text-center">
+        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
           ログイン
         </h2>
       </div>
