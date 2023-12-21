@@ -3,9 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from './Header'
 import Footer from './Footer'
-import LoginControl from './LoginControl'
 import './globals.css'
-import NextAuthProvider from './providers/NextAuth'
 
 export const metadata: Metadata = {
   title: 'ProjectZ',
@@ -21,7 +19,7 @@ export default function RootLayout({
     <html lang="ja">
       <body>
         <Header />
-       {/* <LoginControl /> */}
+       {/* <LoginControlv /> */}
        {children}
         <Footer />
 

@@ -1,19 +1,9 @@
-"use client";
-
-import { signIn, signOut } from "next-auth/react";
 import LoginControl from "./LoginControl";
-import { Fragment, useState } from "react";
-import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
-import {
-  Bars3Icon,
-} from "@heroicons/react/24/outline";
 import React from "react";
 import NextAuthProvider from "./providers/NextAuth";
-
-
+import LoginControlv from "./LoginControlv";
 
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
       <header className="bg-white">
         <nav
@@ -26,17 +16,7 @@ export default function Header() {
               <h1>会社ロゴ</h1>
             </a>
           </div>
-          <div className="flex lg:hidden">
-            <button
-              type="button"
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-              onClick={() => setMobileMenuOpen(true)}
-            >
-              <span className="sr-only">Open main menu</span>
-              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-            </button>
-          </div>
-          <Popover.Group className="hidden lg:flex lg:gap-x-12">
+          <div className="hidden lg:flex lg:gap-x-12">
             <a
               href="/aboutus"
               className="text-sm font-semibold leading-6 text-gray-900"
@@ -61,10 +41,10 @@ export default function Header() {
             >
               お問い合わせ
             </a>
-          </Popover.Group>
+          </div>
 
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <NextAuthProvider><LoginControl /></NextAuthProvider>
+          <NextAuthProvider><LoginControlv /></NextAuthProvider>
           </div>
         </nav>
       </header>

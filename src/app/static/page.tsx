@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { supabase } from "@/utils/supabaseClient";
+import { supabase } from "@/utils/supabase/supabaseClient";
 
 export default async function Groups() {
   const { data: groups } = await supabase.from("GROUP_MAIN").select("id, group_name");

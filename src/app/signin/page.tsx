@@ -1,35 +1,43 @@
-"use client";
-import { supabase } from "@/utils/supabaseClient";
+"use client"
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/utils/supabase/supabaseClient";
+import { redirect } from 'next/navigation'
 
 export default function Login() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onLogin = async () => {
-    try{
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
+  const onLogin = async (e:any) => {
+    e.preventDefault();
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
     })
-}catch(error){
-    alert('エラーが発生しました');;
-  };
-};
+    console.log("login"+{error})
+
+    if (error) {
+      console.log("loginerroe"+{error})
+      return redirect('/login?message=Could not authenticate user')
+
+    }
+    console.log("login"+{error})
+
+  }
+
 
   return (
-    <div className="bg-white px-2 py-12 sm:py-16 lg:px-4">
-      <div className="mx-auto max-w-2xl text-center">
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           ログイン
         </h2>
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6">
+        <form>
           <div>
             <label
               htmlFor="email"
@@ -79,11 +87,10 @@ export default function Login() {
           <div>
             <button
               type="submit"
+              onClick={onLogin}
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               // 登録ボタンがクリックされたとき関数が実行されるようにする
-              onClick={() => {
-                onLogin();
-              }}
+              
             >
               ログイン
             </button>

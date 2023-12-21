@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { supabase } from "@/utils/supabaseClient";
+import { supabase } from "@/utils/supabase/supabaseClient";
 
 export async function generateStaticParams() {
   const { data: groups } = await supabase.from("GROUP_MAIN").select("id");

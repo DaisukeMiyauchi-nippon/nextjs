@@ -3,7 +3,7 @@ import { SetStateAction, useState, Fragment, useRef,useEffect } from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
-import { supabase } from "@/utils/supabaseClient";
+import { supabase } from "@/utils/supabase/supabaseClient";
 
 export default function NewGroup() {
   

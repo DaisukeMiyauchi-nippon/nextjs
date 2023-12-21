@@ -1,31 +1,30 @@
-"use client"
+//新バージョンのサーバーコンポーネントからcookieを取得しようとする
 import { signIn, signOut } from "next-auth/react";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { cookies } from "next/headers";
-import { supabase } from "@/utils/supabase/supabaseClient";
+import { cookies } from "next/headers";;
+import { createClient } from '@/utils/supabase/server'
+import { redirect } from 'next/navigation'
 
 export default function Home() {
-  const { data: session } = useSession()
-  console.log(session)
-  const Logout = async(e:any) => {
-    e.preventDefault();
-    try{
-      const { error:logoutError } = await supabase.auth.signOut()
-      if (logoutError) {
-        throw logoutError;
-      }
-    }catch{
-      alert('エラーが発生しました');
-    }
+  const session = cookies();
+  console.log(session);
+
+  const signOut = async () => {
+    'use server'
+
+    const cookieStore = cookies()
+    const supabase = createClient(cookieStore)
+    await supabase.auth.signOut()
+    return redirect('/')
   }
+
   return (
     <div>
       {!session && (
         <div>
           <Link href="/signinnn">
             <button className="bg-blue-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">
-              サインイン
+              サインイン２
             </button>
           </Link>
 
@@ -37,16 +36,14 @@ export default function Home() {
         </div>
       )}
       {session && (
-      <form onSubmit={Logout}>
+         <form action={signOut}>
         <button
-        type="submit"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
-          サインアウト
+          サインアウト２
         </button>
         </form>
-
       )}
     </div>
   );
-      }
+}
