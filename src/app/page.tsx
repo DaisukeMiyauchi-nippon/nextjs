@@ -8,7 +8,7 @@ import {
 import KeywordSearch from "./compornents/KeywordSearch";
 import GenreSearch from "./compornents/GenreSearch";
 import AreaSearch from "./compornents/AreaSearch";
-import NewEventInfo from "./compornents/NewEventInfo";
+import NewEventInfo2 from "./compornents/NewEventInfo2";
 
 const features = [
   {
@@ -28,7 +28,7 @@ const features = [
   },
   {
     name: "新規登録イベント情報",
-    description: <NewEventInfo />,
+    description: <NewEventInfo2 />,
     icon: CalendarDaysIcon,
   },
 ];

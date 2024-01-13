@@ -7,11 +7,8 @@ import { redirect } from 'next/navigation'
 
 export default function Home() {
   const session = cookies();
-  console.log(session);
-
   const signOut = async () => {
     'use server'
-
     const cookieStore = cookies()
     const supabase = createClient(cookieStore)
     await supabase.auth.signOut()

@@ -1,63 +1,84 @@
 "use client";
-import { SetStateAction, useState, Fragment, useRef,useEffect } from "react";
+import { SetStateAction, useState, Fragment, useRef, useEffect } from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { supabase } from "@/utils/supabase/supabaseClient";
+import { Button } from "@material-tailwind/react";
 
 export default function NewGroup() {
-  
+  const [groupId, setGroupId] = useState("");
   const [groupName, setGroupName] = useState("");
   const [genre, setGenre] = useState("");
   const [hostId, setHostId] = useState("");
-  const [managerId, setManagerId] = useState("");
-  const [simple_introduction, setSimple_Introduction] = useState("");
-  const [detail_introduction, setDetail_Introduction] = useState("");
+  const [hostName, setHostName] = useState(""); //hostIDを入力することによる自動反映項目
+  const [managerName, setManagerName] = useState("");
+  const [simpleIntroduction, setSimpleIntroduction] = useState("");
+  const [detailIntroduction, setDetailIntroduction] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
   const [error, setError] = useState("");
 
+  const hostNameGet = async (hostId: any) => {
+    try {
+      const { data, error } = await supabase
+        .from("GROUP_MAIN")
+        .select("HOST_MAIN(host_name)")
+        .match({ hostId })
+        .single();
 
-
-  const handleGroupNameChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setGroupName(e.target.value);
+      if (data) {
+        const hostNameValue = data.HOST_MAIN[0].host_name;
+        setHostName(hostNameValue);
+        console.log("data is " + hostNameValue);
+      } else {
+        console.log("data is empty");
+      }
+    } catch (error) {
+      console.error("Error fetching manager name:", error);
+    }
   };
 
-  const handleGenreChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setGenre(e.target.value);
-  };
-
-  const handleHostIdChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setHostId(e.target.value);
-  };
-
-  const handleManagerIdChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setManagerId(e.target.value);
-  };
-
-  const handleSimple_IntroductionChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setSimple_Introduction(e.target.value);
-  };
-
-  const handleDetail_IntroductionChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setDetail_Introduction(e.target.value);
+  const handleInputChange = (key: string) => (e: any) => {
+    const value = e.target.value;
+    switch (key) {
+      case "groupId":
+        setGroupId(value);
+        break;
+      case "groupName":
+        setGroupName(value);
+        break;
+      case "genre":
+        setGenre(value);
+        break;
+      case "managerName":
+        setManagerName(value);
+        break;
+      case "hostId":
+        setHostId(value);
+        break;
+      case "simpleIntroduction":
+        setSimpleIntroduction(value);
+        break;
+      case "detailIntroduction":
+        setDetailIntroduction(value);
+        break;
+      default:
+        break;
+    }
   };
 
   const validateForm = () => {
-    if (!groupName || !genre || !hostId || !managerId || !simple_introduction ||!detail_introduction) {
+    if (
+      !groupId ||
+      !groupName ||
+      !genre ||
+      !hostId ||
+      !managerName ||
+      !simpleIntroduction ||
+      !detailIntroduction
+    ) {
       setError("全ての項目を入力してください。");
       return false;
     }
@@ -71,13 +92,14 @@ export default function NewGroup() {
       return;
     }
     try {
-    const {error } = await supabase
-    .from("GROUP_MAIN")
-    .insert(
-      {group_name:groupName,
-        group_genre:genre,
-        group_host:hostId,
-        simple_intro:simple_introduction,
+      const { error } = await supabase.from("GROUP_MAIN").insert({
+        group_id: groupId,
+        group_name: groupName,
+        group_genre: genre,
+        group_host: hostId,
+        group_host_name: managerName,
+        simple_intro: simpleIntroduction,
+        detail_intro: detailIntroduction,
       });
       if (error) {
         throw error;
@@ -86,12 +108,12 @@ export default function NewGroup() {
     } catch (error) {
       console.error("Error adding group:", error);
     }
-  }
+  };
 
   const closeModal = () => {
     setShowModal(false);
   };
-  
+
   return (
     <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
       <div
@@ -103,11 +125,25 @@ export default function NewGroup() {
           新規グループ登録
         </h2>
       </div>
-      <form onSubmit= {addGroup} className="mx-auto mt-16 max-w-xl sm:mt-20">
-      {error && (
-          <p className="mt-2 text-red-600 text-sm">{error}</p>
-        )}
+      <form onSubmit={addGroup} className="mx-auto mt-16 max-w-xl sm:mt-20">
+        {error && <p className="mt-2 text-red-600 text-sm">{error}</p>}
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+          <div>
+            <label
+              htmlFor="group-id"
+              className="block text-sm font-semibold leading-6 text-gray-900"
+            >
+              グループID
+            </label>
+            <div className="mt-2.5">
+              <input
+                type="text"
+                value={groupId}
+                onChange={handleInputChange("groupID")}
+                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
           <div>
             <label
               htmlFor="group-name"
@@ -119,7 +155,7 @@ export default function NewGroup() {
               <input
                 type="text"
                 value={groupName}
-                onChange={handleGroupNameChange}
+                onChange={handleInputChange("groupName")}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
@@ -134,12 +170,12 @@ export default function NewGroup() {
             <div className="mt-2.5">
               <select
                 value={genre}
-                onChange={handleGenreChange}
+                onChange={handleInputChange("genre")}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               >
-              <option>a</option>
-              <option>b</option>
-              <option>c</option>
+                <option>a</option>
+                <option>b</option>
+                <option>c</option>
               </select>
             </div>
           </div>
@@ -148,31 +184,45 @@ export default function NewGroup() {
               htmlFor="host"
               className="block text-sm font-semibold leading-6 text-gray-900"
             >
-              ホストID/ホスト名
+              代表者名
+            </label>
+            <div className="mt-2.5">
+              <input
+                type="text"
+                value={managerName}
+                onChange={handleInputChange("managerName")}
+                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="host_id"
+              className="block text-sm font-semibold leading-6 text-gray-900"
+            >
+              登録拠点ID
             </label>
             <div className="mt-2.5">
               <input
                 type="text"
                 value={hostId}
-                onChange={handleHostIdChange}
+                onChange={(e) => {
+                  handleInputChange("hostId")(e); // handleInputChangeを実行してstateを更新
+                  hostNameGet(hostId);
+                }}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
-          <div className="sm:col-span-2">
+          <div>
             <label
               htmlFor="manager"
               className="block text-sm font-semibold leading-6 text-gray-900"
             >
-              マネジャーID/マネージャー名
+              登録拠点名
             </label>
             <div className="mt-2.5">
-              <input
-                type="text"
-                value={managerId}
-                onChange={handleManagerIdChange}
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
+              <p>{hostName}</p>
             </div>
           </div>
           <div className="sm:col-span-2">
@@ -185,28 +235,47 @@ export default function NewGroup() {
             <div className="relative mt-2.5">
               <input
                 type="textarea"
-                value={simple_introduction}
-                onChange={handleSimple_IntroductionChange}
+                value={simpleIntroduction}
+                onChange={handleInputChange("simple_introduction")}
                 className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
             <div className="sm:col-span-2">
-            <label
-              htmlFor="group-introduction"
-              className="block text-sm font-semibold leading-6 text-gray-900"
-            >
-              グループ紹介（詳細）
-            </label>
-            <div className="relative mt-2.5">
-              <input
-                type="textarea"
-                value={detail_introduction}
-                onChange={handleDetail_IntroductionChange}
-                className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
+              <label
+                htmlFor="group-introduction"
+                className="block text-sm font-semibold leading-6 text-gray-900"
+              >
+                グループ紹介（詳細）
+              </label>
+              <div className="relative mt-2.5">
+                <input
+                  type="textarea"
+                  value={detailIntroduction}
+                  onChange={handleInputChange("detailIntroduction")}
+                  className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+            <div className="outerbox">
+              <div className="title">
+                <h2>画像アップロード</h2>
+                <p>JpegかPngの画像ファイル</p>
+              </div>
+              <div className="imageuploadbox">
+                <div className="imageLogoAndText">
+                  <img src="" alt="imageLogo" />
+                  <p>ここにドラッグ＆ドロップする</p>
+                </div>
+
+                <input
+                  className="imageUploaInput"
+                  multiple
+                  name="imageURL"
+                  type="file"
+                />
+              </div>
             </div>
           </div>
-        </div>
         </div>
         <div className="mt-10">
           <button
@@ -250,14 +319,14 @@ export default function NewGroup() {
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
                   <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                        <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                          <Dialog.Title
-                            as="h3"
-                            className="text-base font-semibold leading-6 text-gray-900 mt-4"
-                          >
-                            グループが登録されました。
-                          </Dialog.Title>
-                        </div>
+                    <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                      <Dialog.Title
+                        as="h3"
+                        className="text-base font-semibold leading-6 text-gray-900 mt-4"
+                      >
+                        グループが登録されました。
+                      </Dialog.Title>
+                    </div>
                     <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                       <button
                         type="button"
@@ -275,6 +344,6 @@ export default function NewGroup() {
           </Dialog>
         </Transition.Root>
       )}
-        </div>
+    </div>
   );
 }
