@@ -16,7 +16,6 @@ export default function NewGroup() {
   const [simpleIntroduction, setSimpleIntroduction] = useState("");
   const [detailIntroduction, setDetailIntroduction] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [open, setOpen] = useState(true);
   const cancelButtonRef = useRef(null);
   const [error, setError] = useState("");
 
@@ -139,7 +138,7 @@ export default function NewGroup() {
               <input
                 type="text"
                 value={groupId}
-                onChange={handleInputChange("groupID")}
+                onChange={handleInputChange("groupId")}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
@@ -236,7 +235,7 @@ export default function NewGroup() {
               <input
                 type="textarea"
                 value={simpleIntroduction}
-                onChange={handleInputChange("simple_introduction")}
+                onChange={handleInputChange("simpleIntroduction")}
                 className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
@@ -287,7 +286,7 @@ export default function NewGroup() {
         </div>
       </form>
       {showModal && (
-        <Transition.Root show={open} as={Fragment}>
+        <Transition.Root show={showModal} as={Fragment}>
           <Dialog
             as="div"
             className="relative z-10"
