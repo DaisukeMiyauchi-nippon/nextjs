@@ -100,10 +100,10 @@ export default function NewGroup() {
         simple_intro: simpleIntroduction,
         detail_intro: detailIntroduction,
       });
+      setShowModal(true);
       if (error) {
         throw error;
       }
-      setShowModal(true);
     } catch (error) {
       console.error("Error adding group:", error);
     }
