@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import Header from './Header'
-import Footer from './Footer'
+import Header from './compornents/Header'
+import Footer from './compornents/Footer'
 import './globals.css'
 
 export const metadata: Metadata = {

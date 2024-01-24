@@ -9,7 +9,7 @@ export default async function Group({
   const { data: group } = await supabase
     .from("GROUP_MAIN")
     .select(
-      "group_name, group_genre, group_host_name, simple_intro, HOST_MAIN(address)"
+      "group_name, group_genre, group_host_name, detail_intro, HOST_MAIN(address,host_email,host_tel)"
     )
     .match({ id })
     .single();
@@ -20,21 +20,17 @@ export default async function Group({
 
   return (
     <div>
-      <div className="px-4 sm:px-0">
-        <h3 className="text-base font-semibold leading-7 text-gray-900">
-          グループ情報
-        </h3>
-      </div>
+    <h3 className="text-base font-semibold leading-7 text-gray-900 text-center mt-8">
+    {group.group_name}
+    </h3>
+    <div className="flex justify-center gap-16 mt-10">
+    <div>
+      <img src = "https://www.koeitecmo.co.jp/images/top/index01.jpg"    width={500}
+      height={500}></img>
+    </div>
+    <div>
       <div className="mt-6 border-t border-gray-100">
         <dl className="divide-y divide-gray-100">
-          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              グループ名
-            </dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              {group.group_name}
-            </dd>
-          </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900">
               ジャンル
@@ -56,7 +52,7 @@ export default async function Group({
               管理者名
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              $120,000
+              {group.group_host_name}
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -64,7 +60,7 @@ export default async function Group({
               連絡先メールアドレス
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              $120,000
+            {group.HOST_MAIN.host_email}
             </dd>
           </div>
 
@@ -73,7 +69,7 @@ export default async function Group({
               連絡先電話番号
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              $120,000
+            {group.HOST_MAIN.tel}
             </dd>
           </div>
 
@@ -88,15 +84,13 @@ export default async function Group({
               グループ紹介
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim
-              incididunt cillum culpa consequat. Excepteur qui ipsum aliquip
-              consequat sint. Sit id mollit nulla mollit nostrud in ea officia
-              proident. Irure nostrud pariatur mollit ad adipisicing
-              reprehenderit deserunt qui eu.
+              {group.detail_intro}
             </dd>
           </div>
         </dl>
       </div>
+    </div>
+    </div>
     </div>
   );
 }

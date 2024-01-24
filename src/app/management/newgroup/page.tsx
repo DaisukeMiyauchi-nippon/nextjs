@@ -68,6 +68,20 @@ export default function NewGroup() {
     }
   };
 
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): Promise<void> => {
+    if (!event.target.files || event.target.files.length == 0) {
+      // 画像が選択されていないのでreturn
+      return
+    }
+    const user = await supabase.auth.getUser() // ログイン中のユーザーのユーザーオブジェクトを取得
+    const file = event.target.files[0] // 選択された画像を取得
+    const filePath = `${user.id}/${file.name}` // ユーザーIDのフォルダの中にファイルを保存
+    const { error } = awaits supabase.storage
+      .from('my_bucket')
+      .upload(filePath, file)
+
   const validateForm = () => {
     if (
       !groupId ||
@@ -271,6 +285,7 @@ export default function NewGroup() {
                   multiple
                   name="imageURL"
                   type="file"
+                  onChange={handleImageChange}
                 />
               </div>
             </div>

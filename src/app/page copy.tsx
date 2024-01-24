@@ -5,20 +5,26 @@ import {
   MagnifyingGlassIcon,
   MapIcon,
 } from "@heroicons/react/24/outline";
+import KeywordSearch from "./compornents/KeywordSearch";
 import GenreSearch from "./compornents/GenreSearch";
 import AreaSearch from "./compornents/AreaSearch";
 import NewEventInfo2 from "./compornents/NewEventInfo2";
 
 const features = [
   {
-    name: "エリアから検索",
+    name: "エリア検索",
     description: <AreaSearch />,
     icon: MapIcon,
   },
   {
-    name: "ジャンルから検索",
+    name: "ジャンル検索",
     description: <GenreSearch />,
     icon: BuildingLibraryIcon,
+  },
+  {
+    name: "キーワード検索",
+    description: <KeywordSearch />,
+    icon: MagnifyingGlassIcon,
   },
   {
     name: "新規登録グループ情報",
@@ -41,8 +47,8 @@ export default function Example() {
           </p>
         </div>
         <div className="mx-auto mt-4 max-w-full sm:mt-4 lg:mt-16 lg:max-w-full">
-          <dl className="grid max-w-full grid-cols-1 gap-x-8 gap-y-10 lg:max-w-full lg:grid-cols-2 lg:gap-y-16">
-            {features.slice(0, 2).map((feature) => (
+          <dl className="grid max-w-full grid-cols-1 gap-x-8 gap-y-10 lg:max-w-full lg:grid-cols-3 lg:gap-y-16">
+            {features.slice(0, 3).map((feature) => (
               <div key={feature.name} className="relative pl-16">
                 <dt className="text-base font-semibold leading-7 text-gray-900">
                   <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
@@ -59,7 +65,7 @@ export default function Example() {
               </div>
             ))}
             <div className="lg:col-span-3">
-            {features.slice(2).map((feature) => (
+            {features.slice(3).map((feature) => (
               <div key={feature.name} className="relative pl-16">
                 <dt className="text-base font-semibold leading-7 text-gray-900">
                   <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">

@@ -22,7 +22,7 @@ export default async function Home() {
         <div>
           <Link href="/signinnn">
             <button className="bg-blue-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">
-              サインイン２
+              ログイン
             </button>
           </Link>
 
@@ -38,7 +38,7 @@ export default async function Home() {
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
-          サインアウト２
+          ログアウト
         </button>
         </form>
       )}
