@@ -78,7 +78,7 @@ export default function NewGroup() {
     const user = await supabase.auth.getUser() // ログイン中のユーザーのユーザーオブジェクトを取得
     const file = event.target.files[0] // 選択された画像を取得
     const filePath = `${user.id}/${file.name}` // ユーザーIDのフォルダの中にファイルを保存
-    const { error } = awaits supabase.storage
+    const { error } = await supabase.storage
       .from('my_bucket')
       .upload(filePath, file)
 
