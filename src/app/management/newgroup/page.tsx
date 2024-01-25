@@ -75,12 +75,13 @@ export default function NewGroup() {
       // 画像が選択されていないのでreturn
       return
     }
-    const user = await supabase.auth.getUser() // ログイン中のユーザーのユーザーオブジェクトを取得
+    const user = await supabase.auth.getUser()
     const file = event.target.files[0] // 選択された画像を取得
-    const filePath = `${user.id}/${file.name}` // ユーザーIDのフォルダの中にファイルを保存
+    const filePath = `${user.id}/${file.name}`
     const { error } = await supabase.storage
       .from('my_bucket')
       .upload(filePath, file)
+  }
 
   const validateForm = () => {
     if (
