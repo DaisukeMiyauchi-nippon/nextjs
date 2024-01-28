@@ -75,11 +75,15 @@ export default function NewGroup() {
       // 画像が選択されていないのでreturn
       return
     }
-    const user = await supabase.auth.getUser()
+    const {data : {user}} = await supabase.auth.getUser()
     const file = event.target.files[0] // 選択された画像を取得
-    const filePath = `${user.id}/${file.name}`
+    const filePath = `${user?.id}/${file.name}`
+    if(filePath){
+      console.log("filepathがnull")
+    }
+
     const { error } = await supabase.storage
-      .from('my_bucket')
+      .from('photos')
       .upload(filePath, file)
   }
 
@@ -115,6 +119,11 @@ export default function NewGroup() {
         simple_intro: simpleIntroduction,
         detail_intro: detailIntroduction,
       });
+      if (error) {
+        throw error;
+      }
+      // Call handleImageChange after successfully adding the group
+
       setShowModal(true);
       if (error) {
         throw error;
@@ -284,6 +293,7 @@ export default function NewGroup() {
                 <input
                   className="imageUploaInput"
                   multiple
+                  accept="image/png, image/jpeg"
                   name="imageURL"
                   type="file"
                   onChange={handleImageChange}

@@ -28,6 +28,18 @@ const genres = {
     { label: "ビジネススキル", value: "business" },
     { label: "その他教養", value: "othereducation" },
   ],
+  グルメ: [
+    { label: "料理", value: "music" },
+    { label: "お酒", value: "language" },
+    { label: "レストラン", value: "books" },
+    { label: "その他教養", value: "othercuisine" },
+  ],
+  ボランティア: [
+    { label: "料理", value: "music" },
+    { label: "お酒", value: "language" },
+    { label: "レストラン", value: "books" },
+    { label: "その他教養", value: "othercuisine" },
+  ],
 };
 
 const GenreSearch = () => {
@@ -43,18 +55,18 @@ const GenreSearch = () => {
 
   return (
     <div className="relative">
-      <div className="mt-2 flex items-center gap-x-3">
+      <div className="mt-2 flex items-center grid-cols-4 gap-x-3 grid">
         {Object.keys(genres).map((genreCategory) => (
           <button
             key={genreCategory}
             onMouseOver={() => handleGenreHover(genreCategory as keyof typeof genres)}
             onMouseOut={handleGenreLeave}
             type="button"
-            className="w-32 h-12 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+            className="relative w-32 h-12 z-5 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
           >
             {activeGenre === genreCategory && (
-              <div className="absolute z-10 top-12 left-1/2 transform -translate-x-1/2 w-screen max-w-md flex overflow-hidden rounded-3xl bg-white text-sm leading-6 ring-1 ring-gray-900/5">
-                <div className="w-screen max-w-md flex-auto overflow-hidden">
+          <div className="absolute top-12 z-10 left-0 rounded-md bg-white text-sm leading-6 ring-1 ring-inset ring-gray-300">
+          <div className="w-screen max-w-md flex-auto overflow-hidden">
                   <ul className="grid grid-cols-2 gap-2">
                     {genres[genreCategory as keyof typeof genres].map(({ label, value }) => (
                       <li key={value} className="text-blue-700 underline">
@@ -69,10 +81,6 @@ const GenreSearch = () => {
             {genreCategory.toUpperCase()}
           </button>
         ))}
-      </div>
-
-      <div className="mt-2 flex items-center gap-x-3">
-        {/* Additional buttons go here */}
       </div>
     </div>
   );
