@@ -62,7 +62,7 @@ const GenreSearch = () => {
             onMouseOver={() => handleGenreHover(genreCategory as keyof typeof genres)}
             onMouseOut={handleGenreLeave}
             type="button"
-            className="relative w-32 h-12 z-5 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+            className="relative w-32 h-12 z-5 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 mb-4"
           >
             {activeGenre === genreCategory && (
           <div className="absolute top-12 z-10 left-0 rounded-md bg-white text-sm leading-6 ring-1 ring-inset ring-gray-300">

@@ -1,8 +1,7 @@
 import React from 'react'
 import { supabase } from "@/utils/supabase/supabaseClient";
 
-export default function SearchList(e: any) {
-    const searchType = e;
+const SearchList = (searchType:string) => {
     switch (searchType){
         case "area":
             getArea;
@@ -57,3 +56,4 @@ export default function SearchList(e: any) {
       }
 
     }
+    export default SearchList;

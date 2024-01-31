@@ -11,10 +11,10 @@ const Footer = () => {
             <a href="#" className="hover:underline me-4 md:me-6">情報の掲載について</a>
         </li>
         <li>
-            <a href="#" className="hover:underline me-4 md:me-6">よくある質問</a>
+            <a href="qa" className="hover:underline me-4 md:me-6">よくある質問</a>
         </li>
         <li>
-            <a href="#" className="hover:underline me-4 md:me-6">お問い合わせ</a>
+            <a href="/inquiry" className="hover:underline me-4 md:me-6">お問い合わせ</a>
         </li>
         <li>
             <a href="#" className="hover:underline me-4 md:me-6">運営会社</a>
@@ -23,7 +23,7 @@ const Footer = () => {
             <a href="#" className="hover:underline me-4 md:me-6">サイトマップ</a>
         </li>
         <li>
-            <a href="#" className="hover:underline me-4 md:me-6">Privacy Policy</a>
+            <a href="/privacypolicy" className="hover:underline me-4 md:me-6">Privacy Policy</a>
         </li>
     </ul>
     </div>
