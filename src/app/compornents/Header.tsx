@@ -13,9 +13,12 @@ export default function Header() {
       >
         <div className="flex lg:flex-1">
           <a href="/" >
-            <h1>会社ロゴ</h1>
+            <span className="sr-only">Your Company</span>
+            <img className="h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
           </a>
-          <KeywordSearch />
+        </div>
+        <div>
+        <KeywordSearch />
         </div>
         <div className="flex lg:flex-1 lg:justify-end">
           <NextAuthProvider>

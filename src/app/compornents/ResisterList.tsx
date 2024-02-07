@@ -1,0 +1,31 @@
+export const genres = [
+  { label: "ハイキング・登山", value: "mountain" },
+  { label: "キャンプ", value: "camp" },
+  { label: "バーベーキュー", value: "bbq" },
+  { label: "その他アウトドア", value: "otheroutdoor" },
+  { label: "野球", value: "baseball" },
+  { label: "サッカー/フットサル", value: "football" },
+  { label: "バスケットボール", value: "basketball" },
+  { label: "テニス", value: "tennis" },
+  { label: "ゴルフ", value: "golf" },
+  { label: "武道/格闘技", value: "martialarts" },
+  { label: "ヨガ/ストレッチ", value: "yoga" },
+  { label: "その他スポーツ", value: "othersports" },
+  { label: "音楽", value: "music" },
+  { label: "語学", value: "language" },
+  { label: "読書", value: "books" },
+  { label: "書道", value: "shodo" },
+  { label: "文化/歴史", value: "culture" },
+  { label: "ビジネススキル", value: "business" },
+  { label: "その他教養", value: "othereducation" },
+];
+
+export const cycles = [
+  { label: "隔月", value: "bimonthly" },
+  { label: "毎月", value: "monthly" },
+  { label: "隔週", value: "biweekly" },
+  { label: "毎週２，３回", value: "weekly2" },
+  { label: "毎週１回", value: "weekly1" },
+  { label: "不定期", value: "regularly" },
+  { label: "その他", value: "other" },
+];

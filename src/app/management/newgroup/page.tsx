@@ -1,43 +1,36 @@
 "use client";
-import { SetStateAction, useState, Fragment, useRef, useEffect } from "react";
+import {
+  SetStateAction,
+  useState,
+  Fragment,
+  useRef,
+  useEffect,
+  Component,
+} from "react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { supabase } from "@/utils/supabase/supabaseClient";
 import { Button } from "@material-tailwind/react";
+import { genres, cycles } from "@/app/compornents/ResisterList";
 
 export default function NewGroup() {
   const [groupId, setGroupId] = useState("");
   const [groupName, setGroupName] = useState("");
   const [genre, setGenre] = useState("");
-  const [hostId, setHostId] = useState("");
-  const [hostName, setHostName] = useState(""); //hostIDを入力することによる自動反映項目
+  const [cycle, setCycle] = useState("");
+  const [postCode, setPostCode] = useState("");
+  const [addressLevel1, setAddressLevel1] = useState("");
+  const [addressLevel2, setAddressLevel2] = useState("");
+  const [streetAddress, setStreetAddress] = useState("");
   const [managerName, setManagerName] = useState("");
+  const [managerNameKana, setManagerNameKana] = useState("");
   const [simpleIntroduction, setSimpleIntroduction] = useState("");
   const [detailIntroduction, setDetailIntroduction] = useState("");
+  const [homepageUrl, setHomepageUrl] = useState("");
   const [showModal, setShowModal] = useState(false);
   const cancelButtonRef = useRef(null);
   const [error, setError] = useState("");
-
-  const hostNameGet = async (hostId: any) => {
-    try {
-      const { data, error } = await supabase
-        .from("GROUP_MAIN")
-        .select("HOST_MAIN(host_name)")
-        .match({ hostId })
-        .single();
-
-      if (data) {
-        const hostNameValue = data.HOST_MAIN[0].host_name;
-        setHostName(hostNameValue);
-        console.log("data is " + hostNameValue);
-      } else {
-        console.log("data is empty");
-      }
-    } catch (error) {
-      console.error("Error fetching manager name:", error);
-    }
-  };
 
   const handleInputChange = (key: string) => (e: any) => {
     const value = e.target.value;
@@ -51,17 +44,35 @@ export default function NewGroup() {
       case "genre":
         setGenre(value);
         break;
+      case "cycle":
+        setCycle(value);
+        break;
       case "managerName":
         setManagerName(value);
         break;
-      case "hostId":
-        setHostId(value);
+      case "managerNameKana":
+        setManagerNameKana(value);
+        break;
+      case "postCode":
+        setPostCode(value);
+        break;
+      case "addressLevel1":
+        setAddressLevel1(value);
+        break;
+      case "addressLevel2":
+        setAddressLevel2(value);
+        break;
+      case "streetAddress":
+        setStreetAddress(value);
         break;
       case "simpleIntroduction":
         setSimpleIntroduction(value);
         break;
       case "detailIntroduction":
         setDetailIntroduction(value);
+        break;
+      case "homepageUrl":
+        setHomepageUrl(value);
         break;
       default:
         break;
@@ -73,27 +84,34 @@ export default function NewGroup() {
   ): Promise<void> => {
     if (!event.target.files || event.target.files.length == 0) {
       // 画像が選択されていないのでreturn
-      return
+      return;
     }
-    const {data : {user}} = await supabase.auth.getUser()
-    const file = event.target.files[0] // 選択された画像を取得
-    const filePath = `${user?.id}/${file.name}`
-    if(filePath){
-      console.log("filepathがnull")
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    const file = event.target.files[0]; // 選択された画像を取得
+    const filePath = `${user?.id}/${file.name}`;
+    if (filePath) {
+      console.log("filepathがnull");
     }
 
     const { error } = await supabase.storage
-      .from('photos')
-      .upload(filePath, file)
-  }
+      .from("photos")
+      .upload(filePath, file);
+  };
 
   const validateForm = () => {
     if (
       !groupId ||
       !groupName ||
       !genre ||
-      !hostId ||
+      !cycle ||
+      !postCode ||
+      !addressLevel1 ||
+      !addressLevel2 ||
+      !streetAddress ||
       !managerName ||
+      !managerNameKana ||
       !simpleIntroduction ||
       !detailIntroduction
     ) {
@@ -114,15 +132,20 @@ export default function NewGroup() {
         group_id: groupId,
         group_name: groupName,
         group_genre: genre,
-        group_host: hostId,
+        active_cycle:cycle,
+        group_postcode: postCode,
+        group_address_prefecture:addressLevel1,
+        group_address_city:addressLevel2,
+        group_address_detail:streetAddress,
         group_host_name: managerName,
+        group_manager_name_kana:managerNameKana,
         simple_intro: simpleIntroduction,
         detail_intro: detailIntroduction,
+        homepage_url:homepageUrl,
       });
       if (error) {
         throw error;
       }
-      // Call handleImageChange after successfully adding the group
 
       setShowModal(true);
       if (error) {
@@ -183,7 +206,7 @@ export default function NewGroup() {
               />
             </div>
           </div>
-          <div>
+          <div className="sm:col-span-2">
             <label
               htmlFor="genre"
               className="block text-sm font-semibold leading-6 text-gray-900"
@@ -196,18 +219,43 @@ export default function NewGroup() {
                 onChange={handleInputChange("genre")}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               >
-                <option>a</option>
-                <option>b</option>
-                <option>c</option>
+                {genres.map((genre) => (
+                  <option key={genre.value} value={genre.value}>
+                    {" "}
+                    {genre.label}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
           <div className="sm:col-span-2">
             <label
+              htmlFor="cycles"
+              className="block text-sm font-semibold leading-6 text-gray-900"
+            >
+              活動頻度
+            </label>
+            <div className="mt-2.5">
+              <select
+                value={cycle}
+                onChange={handleInputChange("cycle")}
+                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              >
+                {cycles.map((cycle) => (
+                  <option key={cycle.value} value={cycle.value}>
+                    {" "}
+                    {cycle.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div>
+            <label
               htmlFor="host"
               className="block text-sm font-semibold leading-6 text-gray-900"
             >
-              代表者名
+              代表者名（漢字）
             </label>
             <div className="mt-2.5">
               <input
@@ -220,34 +268,90 @@ export default function NewGroup() {
           </div>
           <div>
             <label
-              htmlFor="host_id"
+              htmlFor="host"
               className="block text-sm font-semibold leading-6 text-gray-900"
             >
-              登録拠点ID
+              代表者名（かな）
             </label>
             <div className="mt-2.5">
               <input
                 type="text"
-                value={hostId}
-                onChange={(e) => {
-                  handleInputChange("hostId")(e); // handleInputChangeを実行してstateを更新
-                  hostNameGet(hostId);
-                }}
+                value={managerNameKana}
+                onChange={handleInputChange("managerNameKana")}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
           <div>
             <label
-              htmlFor="manager"
+              htmlFor="postCode"
               className="block text-sm font-semibold leading-6 text-gray-900"
             >
-              登録拠点名
+              郵便番号（ハイフンなし）
             </label>
             <div className="mt-2.5">
-              <p>{hostName}</p>
+              <input
+                type="text"
+                name="postal-code"
+                maxLength={7}
+                value={postCode}
+                onChange={handleInputChange("postCode")}
+                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
             </div>
           </div>
+          <div>
+            <label
+              htmlFor="postCode"
+              className="block text-sm font-semibold leading-6 text-gray-900"
+            >
+              都道府県
+            </label>
+            <div className="mt-2.5">
+              <input
+                type="text"
+                name="staddressLevel1"
+                value={addressLevel1}
+                onChange={handleInputChange("addressLevel1")}
+                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+          <div className="sm:col-span-2">
+            <label
+              htmlFor="postCode"
+              className="block text-sm font-semibold leading-6 text-gray-900"
+            >
+              市町村
+            </label>
+            <div className="mt-2.5">
+              <input
+                type="text"
+                name="staddress-level2"
+                value={addressLevel2}
+                onChange={handleInputChange("address-level2")}
+                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+          <div className="sm:col-span-2">
+            <label
+              htmlFor="postCode"
+              className="block text-sm font-semibold leading-6 text-gray-900"
+            >
+              市町村以降の住所
+            </label>
+            <div className="mt-2.5">
+              <input
+                type="text"
+                name="streetAddress"
+                value={streetAddress}
+                onChange={handleInputChange("streetAddress")}
+                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+
           <div className="sm:col-span-2">
             <label
               htmlFor="group-introduction"
@@ -278,6 +382,20 @@ export default function NewGroup() {
                   className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
+              <label
+                htmlFor="url"
+                className="block text-sm font-semibold leading-6 text-gray-900"
+              >
+                ホームページURL
+              </label>
+              <div className="relative mt-2.5">
+                <input
+                  type="textarea"
+                  value={homepageUrl}
+                  onChange={handleInputChange("homepageUrl")}
+                  className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
             </div>
             <div className="outerbox">
               <div className="title">
@@ -296,7 +414,6 @@ export default function NewGroup() {
                   accept="image/png, image/jpeg"
                   name="imageURL"
                   type="file"
-                  onChange={handleImageChange}
                 />
               </div>
             </div>

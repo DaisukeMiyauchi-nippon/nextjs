@@ -70,7 +70,7 @@ const GenreSearch = () => {
                   <ul className="grid grid-cols-2 gap-2">
                     {genres[genreCategory as keyof typeof genres].map(({ label, value }) => (
                       <li key={value} className="text-blue-700 underline">
-                        <Link href={`/search?genre=${value}`}>{label}
+                        <Link href={`/genresearch?word=${value}`}>{label}
                         </Link>
                       </li>
                     ))}

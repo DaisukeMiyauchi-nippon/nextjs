@@ -5,60 +5,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 
 export default function Inquiry() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [company, setCompany] = useState("");
-  const [email, setEmail] = useState("");
-  const [tel, setTel] = useState("");
-  const [inquiry, setInquiry] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  const [open, setOpen] = useState(true);
-  const cancelButtonRef = useRef(null);
-
-  const handleFirstNameChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setFirstName(e.target.value);
-  };
-
-  const handleLastNameChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setLastName(e.target.value);
-  };
-
-  const handleCompanyChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setCompany(e.target.value);
-  };
-
-  const handleEmailChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setEmail(e.target.value);
-  };
-
-  const handleTelChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setTel(e.target.value);
-  };
-
-  const handleInquiryChange = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setInquiry(e.target.value);
-  };
-
-  const handleConfirmation = () => {
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
   return (
     <div className="isolate bg-white px-2 py-12 sm:py-16 lg:px-4">
       <div className="mx-auto max-w-2xl text-center">
@@ -70,11 +16,12 @@ export default function Inquiry() {
           お問い合わせの内容によっては、お時間を頂戴する場合がございます。
         </p>
       </div>
-      <form className="mx-auto mt-16 max-w-xl sm:mt-20">
+      {/* <script async src="https://www.google.com/recaptcha/api.js" /> */}
+      <form className="mx-auto mt-16 max-w-xl sm:mt-20" action="https://ssgform.com/s/aattlHIUliQX" method="post">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div>
             <label
-              htmlFor="Last-name"
+              htmlFor="Family-name"
               className="block text-sm font-semibold leading-6 text-gray-900"
             >
               姓
@@ -82,8 +29,7 @@ export default function Inquiry() {
             <div className="mt-2.5">
               <input
                 type="text"
-                value={lastName}
-                onChange={handleLastNameChange}
+                name="FamilyName"
                 autoComplete="family"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -99,8 +45,7 @@ export default function Inquiry() {
             <div className="mt-2.5">
               <input
                 type="text"
-                value={firstName}
-                onChange={handleFirstNameChange}
+                name="LastName"
                 autoComplete="given-name"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -116,8 +61,7 @@ export default function Inquiry() {
             <div className="mt-2.5">
               <input
                 type="text"
-                value={company}
-                onChange={handleCompanyChange}
+                name="organization"
                 autoComplete="organization"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -133,9 +77,8 @@ export default function Inquiry() {
             <div className="mt-2.5">
               <input
                 type="email"
-                value={email}
+                name="email"
                 autoComplete="email"
-                onChange={handleEmailChange}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
@@ -150,8 +93,7 @@ export default function Inquiry() {
             <div className="relative mt-2.5">
               <input
                 type="tel"
-                value={tel}
-                onChange={handleTelChange}
+                name="phone-number"
                 autoComplete="tel"
                 className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
@@ -173,7 +115,7 @@ export default function Inquiry() {
                   className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                 />
                 <label
-                  htmlFor="push-everything"
+                  htmlFor="event-join"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   イベントへの参加に関して
@@ -187,7 +129,7 @@ export default function Inquiry() {
                   className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                 />
                 <label
-                  htmlFor="push-email"
+                  htmlFor="event-resister"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   イベントの登録に関して
@@ -201,7 +143,7 @@ export default function Inquiry() {
                   className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                 />
                 <label
-                  htmlFor="push-nothing"
+                  htmlFor="other"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   その他
@@ -218,8 +160,7 @@ export default function Inquiry() {
             </label>
             <div className="mt-2.5">
               <textarea
-                value={inquiry}
-                onChange={handleInquiryChange}
+                name="inquiry-contents"
                 rows={4}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 defaultValue={""}
@@ -229,89 +170,16 @@ export default function Inquiry() {
         </div>
         <div className="mt-10">
           <button
-            type="button"
-            onClick={handleConfirmation}
-            className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          data-sitekey="{reCAPTCHA(v3)用サイトキーがここに}"
+          data-callback="onSubmit"
+          data-action="submit"
+            type="submit"
+            className=" block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            入力内容の確認
+            送信する
           </button>
         </div>
       </form>
-
-      {showModal && (
-        <Transition.Root show={open} as={Fragment}>
-          <Dialog
-            as="div"
-            className="relative z-10"
-            initialFocus={cancelButtonRef}
-            open={showModal}
-            onClose={closeModal}
-          >
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-            </Transition.Child>
-
-            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                <Transition.Child
-                  as={Fragment}
-                  enter="ease-out duration-300"
-                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                  enterTo="opacity-100 translate-y-0 sm:scale-100"
-                  leave="ease-in duration-200"
-                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                >
-                  <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                        <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                          <Dialog.Title
-                            as="h3"
-                            className="text-base font-semibold leading-6 text-gray-900 mt-4"
-                          >
-                            入力内容の確認
-                          </Dialog.Title>
-                          <div className="mt-2">
-                            <p className="text-sm text-gray-500">
-                              以下の内容でお問い合わせされることをご確認ください。
-                            </p>
-                          </div>
-                          <div className="modal-content mt-12">
-                        <p>Email: {email}</p>
-                        <p>問い合わせ内容: {inquiry}</p>
-                      </div>
-                        </div>
-                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 mt-2">
-                      <button
-                        type="button"
-                        className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm  sm:ml-3 sm:w-auto"
-                        onClick={() => setOpen(false)}
-                      >
-                        送信
-                      </button>
-                      <button
-                        type="button"
-                        className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                        onClick={closeModal}
-                        ref={cancelButtonRef}
-                      >
-                        キャンセル
-                      </button>
-                    </div>
-                  </Dialog.Panel>
-                </Transition.Child>
-              </div>
-            </div>
-          </Dialog>
-        </Transition.Root>
-      )}
     </div>
   );
 }

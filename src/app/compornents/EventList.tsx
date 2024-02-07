@@ -1,11 +1,12 @@
-"use client";
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabase/supabaseClient";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
-export default function NewEventInfo() {
-  const [data, setData] = useState<any[]>([]);
+export default function EventList(e:string) {
+    const searchParams = useSearchParams();
+    const keyword = searchParams.get("keyword");
+    const [data, setData] = useState<any[]>([]);
 
   useEffect(() => {
     getGroups();
@@ -13,7 +14,7 @@ export default function NewEventInfo() {
 
   async function getGroups() {
     try {
-      const { data, error } = await supabase.from("GROUP_MAIN").select("*");
+      const { data, error } = await supabase.from("GROUP_MAIN").select("*").where()
       if (error) {
         throw error;
       }
