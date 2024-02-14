@@ -31,6 +31,7 @@ export default function NewGroup() {
   const [showModal, setShowModal] = useState(false);
   const cancelButtonRef = useRef(null);
   const [error, setError] = useState("");
+  const [file, setFile] = useState<File | undefined>(undefined);
 
   const handleInputChange = (key: string) => (e: any) => {
     const value = e.target.value;
@@ -86,18 +87,7 @@ export default function NewGroup() {
       // 画像が選択されていないのでreturn
       return;
     }
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    const file = event.target.files[0]; // 選択された画像を取得
-    const filePath = `${user?.id}/${file.name}`;
-    if (filePath) {
-      console.log("filepathがnull");
-    }
-
-    const { error } = await supabase.storage
-      .from("photos")
-      .upload(filePath, file);
+    setFile(event.target.files[0]);
   };
 
   const validateForm = () => {
@@ -126,33 +116,47 @@ export default function NewGroup() {
     e.preventDefault();
     if (!validateForm()) {
       return;
-    }
-    try {
-      const { error } = await supabase.from("GROUP_MAIN").insert({
-        group_id: groupId,
-        group_name: groupName,
-        group_genre: genre,
-        active_cycle:cycle,
-        group_postcode: postCode,
-        group_address_prefecture:addressLevel1,
-        group_address_city:addressLevel2,
-        group_address_detail:streetAddress,
-        group_host_name: managerName,
-        group_manager_name_kana:managerNameKana,
-        simple_intro: simpleIntroduction,
-        detail_intro: detailIntroduction,
-        homepage_url:homepageUrl,
-      });
-      if (error) {
-        throw error;
-      }
+    } else {
+      const {data: { user }} = await supabase.auth.getUser();
+      if (file !== undefined) {
+        const filePath = `${user?.id}/${file.name}`;
+        if (!filePath) {
+          console.log("filepathがnullですよ");
+        } else {
+          const { error: error2 } = await supabase.storage.from("photos").upload(filePath, file);
+          if (error2){
+            console.error("Error uploading image", error);
+            throw error2;
+          }
+          const { data } = supabase.storage.from("photos").getPublicUrl(filePath);
+          const imageUrl = data.publicUrl;
+          const { error: error3 } = await supabase.from("GROUP_MAIN").insert({
+            group_id: groupId,
+            group_name: groupName,
+            group_genre: genre,
+            active_cycle: cycle,
+            group_postcode: postCode,
+            group_address_prefecture: addressLevel1,
+            group_address_city: addressLevel2,
+            group_address_detail: streetAddress,
+            group_manager_name: managerName,
+            group_manager_name_kana: managerNameKana,
+            simple_intro: simpleIntroduction,
+            detail_intro: detailIntroduction,
+            homepage_url: homepageUrl,
+            image_url: imageUrl,
+          });
+          if (error3) {
+            console.error("Error adding group:", error);
+            throw error3;
+          }
 
-      setShowModal(true);
-      if (error) {
-        throw error;
+          setShowModal(true);
+          if (error) {
+            throw error;
+          }
+        }
       }
-    } catch (error) {
-      console.error("Error adding group:", error);
     }
   };
 
@@ -184,6 +188,7 @@ export default function NewGroup() {
             <div className="mt-2.5">
               <input
                 type="text"
+                id="group-id"
                 value={groupId}
                 onChange={handleInputChange("groupId")}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -200,6 +205,7 @@ export default function NewGroup() {
             <div className="mt-2.5">
               <input
                 type="text"
+                id="group-name"
                 value={groupName}
                 onChange={handleInputChange("groupName")}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -215,6 +221,7 @@ export default function NewGroup() {
             </label>
             <div className="mt-2.5">
               <select
+                id="genre"
                 value={genre}
                 onChange={handleInputChange("genre")}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -237,6 +244,7 @@ export default function NewGroup() {
             </label>
             <div className="mt-2.5">
               <select
+                id="cycles"
                 value={cycle}
                 onChange={handleInputChange("cycle")}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -260,6 +268,7 @@ export default function NewGroup() {
             <div className="mt-2.5">
               <input
                 type="text"
+                id="host"
                 value={managerName}
                 onChange={handleInputChange("managerName")}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -276,6 +285,7 @@ export default function NewGroup() {
             <div className="mt-2.5">
               <input
                 type="text"
+                id="host-kana"
                 value={managerNameKana}
                 onChange={handleInputChange("managerNameKana")}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -292,6 +302,7 @@ export default function NewGroup() {
             <div className="mt-2.5">
               <input
                 type="text"
+                id="postCode"
                 name="postal-code"
                 maxLength={7}
                 value={postCode}
@@ -302,7 +313,7 @@ export default function NewGroup() {
           </div>
           <div>
             <label
-              htmlFor="postCode"
+              htmlFor="addressLevel1"
               className="block text-sm font-semibold leading-6 text-gray-900"
             >
               都道府県
@@ -310,6 +321,7 @@ export default function NewGroup() {
             <div className="mt-2.5">
               <input
                 type="text"
+                id="addressLevel1"
                 name="staddressLevel1"
                 value={addressLevel1}
                 onChange={handleInputChange("addressLevel1")}
@@ -319,7 +331,7 @@ export default function NewGroup() {
           </div>
           <div className="sm:col-span-2">
             <label
-              htmlFor="postCode"
+              htmlFor="addressLevel2"
               className="block text-sm font-semibold leading-6 text-gray-900"
             >
               市町村
@@ -327,16 +339,17 @@ export default function NewGroup() {
             <div className="mt-2.5">
               <input
                 type="text"
+                id="addressLevel2"
                 name="staddress-level2"
                 value={addressLevel2}
-                onChange={handleInputChange("address-level2")}
+                onChange={handleInputChange("addressLevel2")}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
           <div className="sm:col-span-2">
             <label
-              htmlFor="postCode"
+              htmlFor="streetAddress"
               className="block text-sm font-semibold leading-6 text-gray-900"
             >
               市町村以降の住所
@@ -344,6 +357,7 @@ export default function NewGroup() {
             <div className="mt-2.5">
               <input
                 type="text"
+                id="streetAddress"
                 name="streetAddress"
                 value={streetAddress}
                 onChange={handleInputChange("streetAddress")}
@@ -354,7 +368,7 @@ export default function NewGroup() {
 
           <div className="sm:col-span-2">
             <label
-              htmlFor="group-introduction"
+              htmlFor="simpleIntroduction"
               className="block text-sm font-semibold leading-6 text-gray-900"
             >
               グループ紹介（一言）
@@ -362,38 +376,41 @@ export default function NewGroup() {
             <div className="relative mt-2.5">
               <input
                 type="textarea"
+                id="simpleIntroduction"
                 value={simpleIntroduction}
                 onChange={handleInputChange("simpleIntroduction")}
-                className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 px-3.5 py-2 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
             <div className="sm:col-span-2">
               <label
-                htmlFor="group-introduction"
+                htmlFor="detailIntroduction"
                 className="block text-sm font-semibold leading-6 text-gray-900"
               >
                 グループ紹介（詳細）
               </label>
               <div className="relative mt-2.5">
-                <input
-                  type="textarea"
+                <textarea
+                  id="detailIntroduction"
                   value={detailIntroduction}
                   onChange={handleInputChange("detailIntroduction")}
-                  className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  rows={4}
+                  className="block w-full rounded-md border-0 px-3.5 py-2 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
               <label
-                htmlFor="url"
+                htmlFor="homepageUrl"
                 className="block text-sm font-semibold leading-6 text-gray-900"
               >
                 ホームページURL
               </label>
               <div className="relative mt-2.5">
                 <input
-                  type="textarea"
+                  type="text"
+                  id="homepageUrl"
                   value={homepageUrl}
                   onChange={handleInputChange("homepageUrl")}
-                  className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -412,8 +429,10 @@ export default function NewGroup() {
                   className="imageUploaInput"
                   multiple
                   accept="image/png, image/jpeg"
+                  id="imageURL"
                   name="imageURL"
                   type="file"
+                  onChange={handleImageChange}
                 />
               </div>
             </div>

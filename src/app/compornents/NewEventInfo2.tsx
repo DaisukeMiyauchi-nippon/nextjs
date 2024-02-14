@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "@/utils/supabase/supabaseClient";
 import Link from "next/link";
+import Image from 'next/image';
 
 export default function NewEventInfo() {
   const [data, setData] = useState<any[]>([]);
@@ -12,8 +13,11 @@ export default function NewEventInfo() {
   }, []);
 
   async function getGroups() {
+    const tenDaysAgo = new Date(); // 現在時刻を取得
+    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10); // 10日前の日付に設定
+
     try {
-      const { data, error } = await supabase.from("GROUP_MAIN").select("*");
+      const { data, error } = await supabase.from("GROUP_MAIN").select("*").gte('created_at', tenDaysAgo.toISOString()).limit(10).order('created_at', { ascending: false });
       if (error) {
         throw error;
       }
@@ -28,8 +32,7 @@ export default function NewEventInfo() {
       {data.map((data) => (
         <a key={data.id} href={`/detailgroup/${data.id}`} className="group">
           <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7"></div>
-          <img src = "https://www.koeitecmo.co.jp/images/top/index01.jpg"    width={500}
-      height={500}></img>
+          <img src={data.image_url} width={500} height={500} alt="image"/>
           <h3 className="mt-4 text-base text-gray-700"> {data.group_name}</h3>
           <p className="mt-1 text-xs font-small text-gray-900">
             {data.group_genre}
