@@ -2,6 +2,9 @@
 import Link from "next/link";
 import React, { useState } from "react";
 
+type practiceText = {
+  linkctl: string;
+}
 const areas = {
   北海道: [
     { label: "北海道", value: "hokkaido" },
@@ -24,7 +27,7 @@ const areas = {
     { label: "栃木", value: "tochigi" },
     { label: "群馬", value: "gunma" },
   ],
-  "北陸・甲信越": [
+  "北陸\n甲信越": [
     { label: "山梨", value: "yamanashi" },
     { label: "長野", value: "nagano" },
     { label: "新潟", value: "niigata" },
@@ -59,7 +62,7 @@ const areas = {
     { label: "高知", value: "kochi" },
     { label: "徳島", value: "tokushima" },
   ],
-  "九州・沖縄": [
+  "九州\n沖縄": [
     { label: "福岡", value: "fukuoka" },
     { label: "佐賀", value: "saga" },
     { label: "長崎", value: "nagasaki" },
@@ -72,7 +75,7 @@ const areas = {
   ],
 };
 
-const AreaSearch = () => {
+const AreaSearch = (props:practiceText) => {
   const [activeArea, setActiveArea] = useState<keyof typeof areas | null>(null);
 
   const handleAreaHover = (area: keyof typeof areas) => {
@@ -81,6 +84,15 @@ const AreaSearch = () => {
 
   const handleAreaLeave = () => {
     setActiveArea(null);
+  };
+
+  const linkDestination = (value: string) => {
+    if (props.linkctl === 'group') {
+      return `/groupsearch?category=area&place=${value}`;
+    } else if (props.linkctl=== 'event') {
+      return `/eventsearch?category=area&place=${value}`;
+    }
+    return '';
   };
 
   return (
@@ -92,7 +104,7 @@ const AreaSearch = () => {
           onMouseOver={() => handleAreaHover(areaCategory as keyof typeof areas)}
           onMouseOut={handleAreaLeave}
           type="button"
-          className="w-22 h-12 rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 mb-4"
+          className="whitespace-pre-wrap w-21 h-12 rounded-md bg-white px-1.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 mb-4"
         >
           {activeArea === areaCategory && (
             <div className="absolute top-12 left-1/2 transform -translate-x-1/2">
@@ -100,7 +112,7 @@ const AreaSearch = () => {
                 <ul className="grid grid-cols-4 gap-2">
                   {areas[areaCategory as keyof typeof areas].map(({ label, value }) => (
                     <li key={value}>
-                      <Link href={`/search?area=${value}`}>{label}</Link>
+                       <Link href={linkDestination(value)}>{label}</Link>
                     </li>
                   ))}
                 </ul>

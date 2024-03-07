@@ -1,4 +1,3 @@
-import LoginControl from "./LoginControl";
 import React from "react";
 import NextAuthProvider from "../providers/NextAuth";
 import LoginControlv from "./LoginControlv";
@@ -18,7 +17,7 @@ export default function Header() {
           </a>
         </div>
         <div>
-        <KeywordSearch />
+        {/* <KeywordSearch /> */}
         </div>
         <div className="flex lg:flex-1 lg:justify-end">
           <NextAuthProvider>

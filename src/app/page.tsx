@@ -1,83 +1,69 @@
-import {
-  CalendarDaysIcon,
-  BuildingLibraryIcon,
-  FingerPrintIcon,
-  MagnifyingGlassIcon,
-  MapIcon,
-} from "@heroicons/react/24/outline";
 import GenreSearch from "./compornents/GenreSearch";
 import AreaSearch from "./compornents/AreaSearch";
-import NewEventInfo2 from "./compornents/NewEventInfo2";
+import NewGroupInfo from "./compornents/NewGroupInfo";
+import KeywordSearch from "./compornents/KeywordSearch";
+import DateSearch from "./compornents/DateSearch";
+import NewEventInfo from "./compornents/NewEventInfo";
 
-const features = [
-  {
-    name: "エリアから検索",
-    description: <AreaSearch />,
-    icon: MapIcon,
-  },
-  {
-    name: "ジャンルから検索",
-    description: <GenreSearch />,
-    icon: BuildingLibraryIcon,
-  },
-  {
-    name: "新規登録グループ情報",
-    description: <NewEventInfo2 />,
-    icon: CalendarDaysIcon,
-  },
-];
-
-export default function Example() {
+type text ={
+  key:string;
+}
+export default function Main() {
   return (
-    <div className="bg-white py-24 sm:py-16">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl lg:text-center">
-          <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            さあ、新しい自分と仲間を見つけよう
-          </p>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            （仮）あなたがやりたいこと、興味あることに挑戦しましょう。 <br />
-            （仮）プロジェクトZは、年齢や職業、地域を超えた仲間づくりを応援します。
-          </p>
+    <div className="bg-white py-12 sm:py-16">
+      <div className="mx-auto max-w-2xl lg:text-center">
+        <p className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          さあ、新しい自分と仲間を見つけよう
+        </p>
+        <p className="mt-6 text-lg leading-8 text-gray-600">
+          （仮）あなたがやりたいこと、興味あることに挑戦しましょう。 <br />
+          （仮）プロジェクトZは、年齢や職業、地域を超えた仲間づくりを応援します。
+        </p>
+      </div>
+      <div className="flex justify-center gap-2 m-12">
+        <div className="container w-full p-10 md:w-1/2 flex-col">
+          <div className="text-center font-bold">グループを検索する</div>
+          <div className="text-left">地域から検索する</div>
+          <div className="text-center">
+            <AreaSearch linkctl="group" />
+          </div>
+          <div className="text-left">ジャンルから検索する</div>
+          <div className="text-center">
+            <GenreSearch linkctl="group" />
+          </div>
+          <div className="text-left">キーワードから検索する</div>
+          <div className="text-center">
+            <KeywordSearch />
+          </div>
         </div>
-        <div className="mx-auto mt-4 max-w-full sm:mt-4 lg:mt-16 lg:max-w-full">
-          <dl className="grid max-w-full grid-cols-1 gap-x-8 gap-y-10 lg:max-w-full lg:grid-cols-2 lg:gap-y-16">
-            {features.slice(0, 2).map((feature) => (
-              <div key={feature.name} className="relative pl-16">
-                <dt className="text-base font-semibold leading-7 text-gray-900">
-                  <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
-                    <feature.icon
-                      className="h-6 w-6 text-white"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  {feature.name}
-                </dt>
-                <dd className="mt-2 text-base leading-7 text-gray-600">
-                  {feature.description}
-                </dd>
-              </div>
-            ))}
-            <div className="lg:col-span-3">
-            {features.slice(2).map((feature) => (
-              <div key={feature.name} className="relative pl-16">
-                <dt className="text-base font-semibold leading-7 text-gray-900">
-                  <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
-                    <feature.icon
-                      className="h-6 w-6 text-white"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  {feature.name}
-                </dt>
-                <dd className="mt-2 text-base leading-7 text-gray-600">
-                  {feature.description}
-                </dd>
-              </div>
-            ))}
-            </div>
-          </dl>
+
+        <div className="container w-full p-10 md:w-1/2 flex-col">
+          <div className="text-center font-bold">イベントを検索する</div>
+          <div className="text-left">地域から検索する</div>
+          <div className="text-center">
+            <AreaSearch linkctl="event" />
+          </div>
+          <div className="text-left">ジャンルから検索する</div>
+          <div className="text-center">
+            <GenreSearch linkctl="event" />
+          </div>
+          <div className="text-left">キーワードから検索する</div>
+          <div className="text-center">
+            <KeywordSearch />
+          </div>
+          <div className="text-left">日付から検索する</div>
+          <div className="text-left">
+            <DateSearch />
+          </div>
         </div>
+      </div>
+      <div className="container w-full p-10 flex-col gap-2 m-12">
+        <div className="text-left font-bold">新規グループ情報</div>
+          <NewGroupInfo />
+      </div>
+      <div className="container w-full p-10 flex-col gap-2 m-12">
+        <div className="text-left font-bold">新規イベント情報</div>
+          <NewEventInfo />
       </div>
     </div>
   );

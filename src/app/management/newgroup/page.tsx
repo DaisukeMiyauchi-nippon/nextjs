@@ -12,7 +12,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { supabase } from "@/utils/supabase/supabaseClient";
 import { Button } from "@material-tailwind/react";
-import { genres, cycles } from "@/app/compornents/ResisterList";
+import { genres, cycles,areas } from "@/app/compornents/ResisterList";
 
 export default function NewGroup() {
   const [groupId, setGroupId] = useState("");
@@ -32,6 +32,9 @@ export default function NewGroup() {
   const cancelButtonRef = useRef(null);
   const [error, setError] = useState("");
   const [file, setFile] = useState<File | undefined>(undefined);
+  const [file2, setFile2] = useState<File | undefined>(undefined);
+  const [file3, setFile3] = useState<File | undefined>(undefined);
+  const now = new Date()
 
   const handleInputChange = (key: string) => (e: any) => {
     const value = e.target.value;
@@ -90,6 +93,26 @@ export default function NewGroup() {
     setFile(event.target.files[0]);
   };
 
+  const handleImageChange2 = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): Promise<void> => {
+    if (!event.target.files || event.target.files.length == 0) {
+      // 画像が選択されていないのでreturn
+      return;
+    }
+    setFile2(event.target.files[0]);
+  };
+
+  const handleImageChange3 = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): Promise<void> => {
+    if (!event.target.files || event.target.files.length == 0) {
+      // 画像が選択されていないのでreturn
+      return;
+    }
+    setFile3(event.target.files[0]);
+  };
+
   const validateForm = () => {
     if (
       !groupId ||
@@ -113,23 +136,61 @@ export default function NewGroup() {
   };
 
   const addGroup = async (e: { preventDefault: () => void }) => {
+    let filePath:string = "";
+    let filePath2:string = "";
+    let filePath3:string = "";
+
     e.preventDefault();
     if (!validateForm()) {
       return;
     } else {
-      const {data: { user }} = await supabase.auth.getUser();
+      const {data: { user },} = await supabase.auth.getUser();
+
       if (file !== undefined) {
-        const filePath = `${user?.id}/${file.name}`;
+
+        filePath = `${user?.id}/${file.name}/${now}`;
         if (!filePath) {
           console.log("filepathがnullですよ");
         } else {
           const { error: error2 } = await supabase.storage.from("photos").upload(filePath, file);
-          if (error2){
+          if (error2) {
             console.error("Error uploading image", error);
             throw error2;
           }
+
+          if (file2 !== undefined) {
+            filePath2 = `${user?.id}/${file2.name}/${now}`;
+            if (!filePath2) {
+              console.log("filepath2がnullですよ");
+            } else {
+              const { error: error4 } = await supabase.storage.from("photos").upload(filePath2, file2);
+              if (error4) {
+                console.error("Error uploading image2", error);
+                throw error4;
+              }
+
+              if (file3 !== undefined) {
+                filePath3 = `${user?.id}/${file3.name}/${now}`;
+                if (!filePath3) {
+                  console.log("filepath3がnullですよ");
+                } else {
+                  const { error: error5 } = await supabase.storage.from("photos").upload(filePath3, file3);
+                  if (error5) {
+                    console.error("Error uploading image3", error);
+                    throw error5;
+                  }
+                }
+              }
+            }
+          }
+        
+
           const { data } = supabase.storage.from("photos").getPublicUrl(filePath);
           const imageUrl = data.publicUrl;
+          const { data:data2 } = supabase.storage.from("photos").getPublicUrl(filePath2);
+          const imageUrl2 = data2.publicUrl;
+          const { data:data3 } = supabase.storage.from("photos").getPublicUrl(filePath3);
+          const imageUrl3 = data3.publicUrl;
           const { error: error3 } = await supabase.from("GROUP_MAIN").insert({
             group_id: groupId,
             group_name: groupName,
@@ -145,6 +206,9 @@ export default function NewGroup() {
             detail_intro: detailIntroduction,
             homepage_url: homepageUrl,
             image_url: imageUrl,
+            image_url_sub1:imageUrl2,
+            image_url_sub2:imageUrl3,
+            searchidx:groupName+genre+addressLevel1+addressLevel2+managerName+detailIntroduction
           });
           if (error3) {
             console.error("Error adding group:", error);
@@ -158,7 +222,7 @@ export default function NewGroup() {
         }
       }
     }
-  };
+  }
 
   const closeModal = () => {
     setShowModal(false);
@@ -226,6 +290,7 @@ export default function NewGroup() {
                 onChange={handleInputChange("genre")}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               >
+                  <option value="">{''}</option>
                 {genres.map((genre) => (
                   <option key={genre.value} value={genre.value}>
                     {" "}
@@ -249,6 +314,7 @@ export default function NewGroup() {
                 onChange={handleInputChange("cycle")}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               >
+                <option value="">{''}</option>
                 {cycles.map((cycle) => (
                   <option key={cycle.value} value={cycle.value}>
                     {" "}
@@ -319,15 +385,37 @@ export default function NewGroup() {
               都道府県
             </label>
             <div className="mt-2.5">
-              <input
-                type="text"
+              <select
+              id="addressLevel1"
+              value={addressLevel1}
+              name="staddressLevel1"
+                onChange={handleInputChange("addressLevel1")}
+                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              >
+                  <option value="">{''}</option>
+                {areas.map((area) => (
+                  <option key={area.label} value={area.label}>
+                    {" "}
+                    {area.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {/* <div className="mt-2.5">
+              <select
                 id="addressLevel1"
-                name="staddressLevel1"
                 value={addressLevel1}
+                name="staddressLevel1"
                 onChange={handleInputChange("addressLevel1")}
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-            </div>
+                {areas.map((area) => (
+                  <option key={area.label} value={area.label}>
+                    {" "}
+                    {area.label}
+                  </option>
+                ))}
+            </div> */}
           </div>
           <div className="sm:col-span-2">
             <label
@@ -433,6 +521,24 @@ export default function NewGroup() {
                   name="imageURL"
                   type="file"
                   onChange={handleImageChange}
+                />
+                <input
+                  className="imageUploaInput"
+                  multiple
+                  accept="image/png, image/jpeg"
+                  id="imageURL"
+                  name="imageURL"
+                  type="file"
+                  onChange={handleImageChange2}
+                />
+                <input
+                  className="imageUploaInput"
+                  multiple
+                  accept="image/png, image/jpeg"
+                  id="imageURL"
+                  name="imageURL"
+                  type="file"
+                  onChange={handleImageChange3}
                 />
               </div>
             </div>
